@@ -1,0 +1,28 @@
+# Publicação no Render (plano com disco persistente, onde fica o banco de dados).
+services:
+  - type: web
+    name: studio-nails-modelo # troque pelo nome do cliente
+    runtime: node
+    plan: starter
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    disk:
+      name: agenda-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: DB_PATH
+        value: /var/data/studio.db
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: DATA_KEY
+        sync: false
+      - key: PUBLIC_URL
+        sync: false
